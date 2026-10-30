@@ -130,6 +130,39 @@ class TestLickSpoutConfig(unittest.TestCase):
         )
 
 
+class TestChannel(unittest.TestCase):
+    """Tests for the Channel class"""
+
+    @staticmethod
+    def _detector() -> DetectorConfig:
+        """Build a minimal detector config"""
+        return DetectorConfig(
+            device_name="Detector1",
+            exposure_time=Decimal("10.0"),
+            trigger_type="Internal",
+        )
+
+    def test_intended_measurement_accepts_string_list_or_none(self):
+        """intended_measurement accepts a single string, a list of strings, or None"""
+        for value in ("GCaMP", ["iGluSnFR4s", "GFP"], None):
+            channel = Channel(
+                channel_name="Channel1",
+                intended_measurement=value,
+                detector=self._detector(),
+            )
+            self.assertEqual(channel.intended_measurement, value)
+
+    def test_intended_measurement_list_json_roundtrip(self):
+        """A list-valued intended_measurement survives JSON serialization"""
+        channel = Channel(
+            channel_name="Channel1",
+            intended_measurement=["iGluSnFR4s", "GFP"],
+            detector=self._detector(),
+        )
+        restored = Channel.model_validate_json(channel.model_dump_json())
+        self.assertEqual(restored.intended_measurement, ["iGluSnFR4s", "GFP"])
+
+
 class TestImagingConfig(unittest.TestCase):
     """Tests for the ImagingConfig class"""
 

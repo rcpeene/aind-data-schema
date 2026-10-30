@@ -36,7 +36,7 @@ Configuration of a channel
 | Field | Type | Title (Description) |
 |-------|------|-------------|
 | `channel_name` | `str` | Channel  |
-| `intended_measurement` | `Optional[str]` | Intended measurement (What signal is this channel measuring) |
+| `intended_measurement` | `str or List[str] or NoneType` | Intended measurement (What signal(s) this channel is measuring; use a list when the channel measures multiple signals) |
 | `detector` | [DetectorConfig](#detectorconfig) | Detector configuration  |
 | `additional_device_names` | Optional[List[[DeviceConfig](#deviceconfig)]] | Additional device names (Mirrors, dichroics, etc) |
 | `light_sources` | List[[LaserConfig](#laserconfig) or [LightEmittingDiodeConfig](#lightemittingdiodeconfig)] | Light source configurations  |

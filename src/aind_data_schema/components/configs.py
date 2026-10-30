@@ -2,7 +2,7 @@
 
 from decimal import Decimal
 from enum import Enum
-from typing import List, Optional
+from typing import List, Optional, Union
 
 from aind_data_schema_models.brain_atlas import BrainStructureModel
 from aind_data_schema_models.coordinates import AnatomicalRelative
@@ -177,8 +177,10 @@ class Channel(DataModel):
     """Configuration of a channel"""
 
     channel_name: str = Field(..., title="Channel")
-    intended_measurement: Optional[str] = Field(
-        default=None, title="Intended measurement", description="What signal is this channel measuring"
+    intended_measurement: Optional[Union[str, List[str]]] = Field(
+        default=None,
+        title="Intended measurement",
+        description="What signal(s) this channel is measuring; use a list when the channel measures multiple signals",
     )
     detector: DetectorConfig = Field(..., title="Detector configuration")
     additional_device_names: Optional[List[DeviceConfig]] = Field(
